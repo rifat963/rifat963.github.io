@@ -27,11 +27,11 @@
 
   <body id="page-top">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="sideNav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">
         <span class="d-block d-lg-none">Start Bootstrap</span>
         <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+          <img class="img-fluid img-profile  mx-auto mb-2" src="img/profile.jpg" alt="">
         </span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,11 +43,17 @@
             <a class="nav-link js-scroll-trigger" href="#about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#education">Education</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#publication">Publication</a>
+          </li>
+          
+          
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
           </li>
@@ -69,18 +75,31 @@
             <span class="text-primary">Rashid</span>
           </h1>
           <div class="subheading mb-5">Via Guala 5 · Torino Italy, TO 10135 · (+39) 366-2490466  ·
-            <a href="mailto:name@email.com">rifat.abir@gmail.com</a>
+            <a href="mailto:rifat.abir@gmail.com">rifat.abir@gmail.com</a>
           </div>
-          <p class="mb-5">Currently, I am pursuing my Ph.D. in Computer and Control Engineering at the Polytechnic University of Turin, Department of Computer and Control Engineering (DAUIN). I am working on Data Quality Assessment for Large-Scale Knowledge Bases. 
-Previously, I received My Master's in Service Engineering (Business Analysis, Design of Enterprise Systems) from the university of Pavia. I worked on Social Media Data Integration and Even Management for Smart Cities.
+          <div>
+          Currently, I am pursuing my Ph.D. in Computer and Control Engineering at the Polytechnic University of Turin, Department              of            Computer and Control Engineering (DAUIN). I am working on Data Quality Assessment for Large-Scale Knowledge Bases. 
+            Previously, I received My Master's in Service Engineering (Business Analysis, Design of Enterprise Systems) from the university of Pavia             . I worked on Social Media Data Integration and Even Management for Smart Cities. Areas of expertise are including:
+            <br/>
+            <br/>
+            <ul class="fa-ul mb-0">
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              - Data Analysis and Model Design.</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              - Data Profiling and Quality Assessment</li>
+            <li>
+              <i class="fa-li fa fa-check"></i>
+              - R and Python Scientific Programming (Machine Learning, Pattern Recognition, Deep Learning etc.)</li>
+          </ul>
 
-Areas of expertise are including:
-- Data Analysis and Model Design.
-- Data Profiling and Quality Assessment
-- R and Python Scientific Programming (Machine Learning, Pattern Recognition, Deep Learning etc.)</p>
+          </div>
+          <br/>
+          <br/>
           <ul class="list-inline list-social-icons mb-0">
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://www.facebook.com/rifat.abir">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -88,7 +107,7 @@ Areas of expertise are including:
               </a>
             </li>
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://twitter.com/rifat_rashid?lang=en">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
@@ -96,7 +115,7 @@ Areas of expertise are including:
               </a>
             </li>
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
@@ -104,7 +123,7 @@ Areas of expertise are including:
               </a>
             </li>
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://github.com/rifat963">
                 <span class="fa-stack fa-lg">
                   <i class="fa fa-circle fa-stack-2x"></i>
                   <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -115,7 +134,49 @@ Areas of expertise are including:
         </div>
       </section>
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+        <div class="my-auto">
+          <h2 class="mb-5">Education</h2>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Polytechnic University of Turin , Turin, Italy</h3>
+              <div class="subheading mb-3">Department of Control and Computer Eng. (DAUIN)</div>
+              <div class="subheading mb-3">PHD in Computer and control Eng.</div>
+              <div> <i>Title:</i> Automated Quality Assessment and Validation for Evolving Knowledge Bases</div>
+              <div> <i> Thesis Summary:</i> Assessing the quality of a Knowledge Base (KB) is a complex task as it often means measuring the quality of structured information, ontologies and vocabularies, and queryable endpoints. Popular knowledge bases such as DBpedia, YAGO2, and Wikidata have chosen the RDF data model to represent their data due to its capabilities for semantically rich knowledge representation. Despite its advantages, there are challenges in using RDF data model, for example, data quality assessment and validation. Ontologies are designed for entailment rather than assessment. Most ontologies lack the granular information needed for validating constraints. In this work we present a two-fold data-driven approach for the automated quality assessment and validation of evolving knowledge bases. We compare consecutive knowledge base releases to compute quality measures that allow to detect quality issues and assess the overall quality. Then, the approach validates the schema by using a machine learning classifiers that constructs RDF shapes. In our experimental setup, for a subset of DBpedia data the quality assessment achieved 89% accuracy for completeness quality characteristics in error detection. For validation task our approach achieved 97% precision in deriving RDF Shapes with cardinality constraints.</div>
+              
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">Novemeber 2014 - Present</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">University of Pavia</h3>
+              <div class="subheading mb-3">MSc in Service  Engineering  (Business Intelligence)</div>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">Sep. 2014 - Sep 2014</span>
+            </div>
+          </div>
+          
+           <div class="resume-item d-flex flex-column flex-md-row">
+            <div class="resume-content mr-auto">
+              <h3 class="mb-0">Khulna University</h3>
+              <div class="subheading mb-3">BSc in Computer Science and  Engineering</div>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">Apr. 2005 - Sep 2009</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
         <div class="my-auto">
           <h2 class="mb-5">Experience</h2>
 
@@ -167,35 +228,45 @@ Areas of expertise are including:
 
       </section>
 
-      <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+
+<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="publication">
         <div class="my-auto">
-          <h2 class="mb-5">Education</h2>
+          <h2 class="mb-5">Publication</h2>
 
           <div class="resume-item d-flex flex-column flex-md-row mb-5">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">University of Colorado Boulder</h3>
-              <div class="subheading mb-3">Bachelor of Science</div>
-              <div>Computer Science - Web Development Track</div>
-              <p>GPA: 3.23</p>
+              <div class="subheading mb-3">Author(s) and title</div>
+              <p>Nandana Mihindukulasooriya, Mohammad Rashid, Giuseppe Rizzo, RaúlGarcía-Castro, Oscar Corcho, and Marco Torchiano,<b><i>”RDF Shape                    Indution using Knowledge Base Profiling.”</i></b>  </p>
+              <div class="subheading mb-3">PUBLICATION PLACE</div>
+              <p>The 33rd ACM/SIGAPP Symposium On Applied Computing.</p>
             </div>
             <div class="resume-date text-md-right">
-              <span class="text-primary">August 2006 - May 2010</span>
+              <span class="text-primary">April 2018 (In procedings)</span>
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              
+            </div>
+          </div>
+
+          <div class="resume-item d-flex flex-column flex-md-row mb-5">
+            <div class="resume-content mr-auto">
+              
             </div>
           </div>
 
           <div class="resume-item d-flex flex-column flex-md-row">
             <div class="resume-content mr-auto">
-              <h3 class="mb-0">James Buchanan High School</h3>
-              <div class="subheading mb-3">Technology Magnet Program</div>
-              <p>GPA: 3.56</p>
-            </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">August 2002 - May 2006</span>
+              
             </div>
           </div>
 
         </div>
+
       </section>
+
 
       <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
         <div class="my-auto">
