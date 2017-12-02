@@ -1,0 +1,342 @@
+---
+title: "KappaValues"
+author: "Rifat"
+date: "December 2, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Kappa Values
+
+The Kappa statistic (or value) is a metric that compares an Observed Accuracy with an Expected Accuracy (random chance). In this document we present four cardinality classifier Kappa values.
+
+```{r echo=FALSE,error=FALSE,message=FALSE}
+# load libraries
+library(DMwR)
+library(mlbench)
+library(caret)
+library(klaR)
+library(randomForest)
+library(ggplot2)
+library(OneR)
+library(ROCR)
+
+# Function For loading training dataSets
+
+load_dataSet<-function(name){
+  
+  data=read.csv(paste("C:/Users/rifat/Desktop/R_milan/githubRepo/RDFShapeInduction/dataset/",name,sep = ""),header = TRUE)
+  
+  return(data)  
+}
+
+# Function for smote 
+
+smote_data<-function(data,over.val,under.val){
+  
+  re_somte_data <- SMOTE(Class ~ ., data, perc.over=over.val, perc.under=under.val)
+  
+  return(re_somte_data)  
+}
+
+# Function for ML algorithms
+# Testing ML algorithms using the optimized parameters 
+# DataSet divided into Test & Training Set.
+
+ML_algorithms<-function(training_data){
+  
+  # prepare training scheme
+  # training_data= max_card_smote
+  control <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
+  
+  
+  # Quadratic
+  # set.seed(12)
+  # fit.qda <- train(Class~., data=training_data, method="qda", trControl=control)
+  
+  
+  # # Logistic regression
+  # set.seed(12)
+  # fit.lr <- train(Class~., data=training_data, method="multinom", trControl=control)
+  
+  #Bayesian Generalized Linear Model
+  set.seed(12)
+  fit.bayes <- train(Class~., data=training_data, method="nb", trControl=control)
+  
+  
+  # SVM
+  set.seed(12)
+  fit.svm <- train(Class~., data=training_data, method="svmRadial", trControl=control)
+  # kNN
+  set.seed(12)
+  fit.knn <- train(Class~., data=training_data, method="knn", trControl=control)
+  
+  # CART
+  set.seed(12)
+  fit.cart <- train(Class~., data=training_data, method="rpart", trControl=control)
+  
+  # Gradiant Boosting
+  set.seed(12)
+  fit.gbm <- train(Class~., data=training_data, method="gbm", trControl=control)
+  
+  
+  # Random Forest
+  set.seed(12)
+  fit.rf <- train(Class~., data=training_data, method="rf", trControl=control)
+  #Neural Network
+  set.seed(12)
+  fit.nnet <- train(Class~., data=training_data, method="nnet", trControl=control)
+  
+  # C4.5
+  set.seed(12)
+  fit.c45 <- train(Class~., data=training_data, method="J48", trControl=control)
+  
+  # Logistic Regression
+  set.seed(12)
+  fit.logic <- train(Class~., data=training_data, method="LogitBoost", trControl=control)
+
+  # collect resamples
+  results <- resamples(list(CART=fit.cart,Bayesian=fit.bayes , SVM=fit.svm, KNN=fit.knn, RF=fit.rf,NNET=fit.nnet,GBM=fit.gbm, C45=fit.c45, LogisticRegression=fit.logic))
+  
+  return(results)
+}
+
+```
+
+## DBpedia Min Cardinality
+
+```{r ,echo=FALSE,comment=NA,results='hide', message=FALSE, warning=FALSE}
+
+# filename="3cixty-min-card.csv"
+# filename="3cixty-max-card.csv"
+
+filename="dbp-min-card.csv"
+# filename="dbp-max-card.csv"
+
+ml_data<-load_dataSet(filename)
+
+nrow(ml_data)
+
+ml_data$Class=factor(ml_data$Class)
+
+set.seed(3033)
+
+ml_data_smote<-smote_data(ml_data,100,200)
+
+ml_data_smote$Class=factor(ml_data_smote$Class)
+
+ml_data=ml_data_smote
+
+# intrain <- sample(1:nrow(ml_data),size = 0.7*nrow(ml_data)) 
+intrain <- createDataPartition(y = ml_data$Class, p= 0.7, list = FALSE)
+
+training <- ml_data[intrain,]
+
+nrow(training)
+
+testing <- ml_data[-intrain,]
+
+nrow(testing)
+
+ml_data<-training
+
+head(ml_data)
+
+# write.csv(ml_data_smote,"C:/Users/rifat/Desktop/R_milan/KB_Integrity_Constraints/dbp-max-card-smote.csv",row.names =   FALSE)
+
+prop.table(table(ml_data$Class))
+
+prop.table(table(ml_data_smote$Class))
+
+results<-ML_algorithms(ml_data_smote)
+
+# summarize differences between modes
+with_smote_data<- summary(results)
+
+# box and whisker plots to compare models
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+
+```
+```{r echo=FALSE}
+bwplot(results, scales=scales)
+```
+
+## DBpedia Max Cardinality
+
+
+```{r ,echo=FALSE,comment=NA,results='hide', message=FALSE, warning=FALSE}
+
+# filename="3cixty-min-card.csv"
+# filename="3cixty-max-card.csv"
+
+# filename="dbp-min-card.csv"
+ filename="dbp-max-card.csv"
+
+ml_data<-load_dataSet(filename)
+
+nrow(ml_data)
+
+ml_data$Class=factor(ml_data$Class)
+
+set.seed(3033)
+
+ml_data_smote<-smote_data(ml_data,100,200)
+
+ml_data_smote$Class=factor(ml_data_smote$Class)
+
+ml_data=ml_data_smote
+
+# intrain <- sample(1:nrow(ml_data),size = 0.7*nrow(ml_data)) 
+intrain <- createDataPartition(y = ml_data$Class, p= 0.7, list = FALSE)
+
+training <- ml_data[intrain,]
+
+nrow(training)
+
+testing <- ml_data[-intrain,]
+
+nrow(testing)
+
+ml_data<-training
+
+head(ml_data)
+
+# write.csv(ml_data_smote,"C:/Users/rifat/Desktop/R_milan/KB_Integrity_Constraints/dbp-max-card-smote.csv",row.names =   FALSE)
+
+prop.table(table(ml_data$Class))
+
+prop.table(table(ml_data_smote$Class))
+
+results<-ML_algorithms(ml_data_smote)
+
+# summarize differences between modes
+with_smote_data<- summary(results)
+
+# box and whisker plots to compare models
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+
+```
+```{r echo=FALSE}
+bwplot(results, scales=scales)
+```
+
+
+## 3cixty Min Cardinality
+
+```{r ,echo=FALSE,comment=NA,results='hide', message=FALSE, warning=FALSE}
+
+ filename="3cixty-min-card.csv"
+# filename="3cixty-max-card.csv"
+
+# filename="dbp-min-card.csv"
+# filename="dbp-max-card.csv"
+
+ml_data<-load_dataSet(filename)
+
+nrow(ml_data)
+
+ml_data$Class=factor(ml_data$Class)
+
+set.seed(3033)
+
+ml_data_smote<-smote_data(ml_data,100,200)
+
+ml_data_smote$Class=factor(ml_data_smote$Class)
+
+ml_data=ml_data_smote
+
+# intrain <- sample(1:nrow(ml_data),size = 0.7*nrow(ml_data)) 
+intrain <- createDataPartition(y = ml_data$Class, p= 0.7, list = FALSE)
+
+training <- ml_data[intrain,]
+
+nrow(training)
+
+testing <- ml_data[-intrain,]
+
+nrow(testing)
+
+ml_data<-training
+
+head(ml_data)
+
+# write.csv(ml_data_smote,"C:/Users/rifat/Desktop/R_milan/KB_Integrity_Constraints/dbp-max-card-smote.csv",row.names =   FALSE)
+
+prop.table(table(ml_data$Class))
+
+prop.table(table(ml_data_smote$Class))
+
+results<-ML_algorithms(ml_data_smote)
+
+# summarize differences between modes
+with_smote_data<- summary(results)
+
+# box and whisker plots to compare models
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+
+```
+```{r echo=FALSE}
+bwplot(results, scales=scales)
+```
+
+## 3cixty Max Cardinality
+
+```{r ,echo=FALSE,comment=NA,results='hide', message=FALSE, warning=FALSE}
+
+# filename="3cixty-min-card.csv"
+ filename="3cixty-max-card.csv"
+
+# filename="dbp-min-card.csv"
+# filename="dbp-max-card.csv"
+
+ml_data<-load_dataSet(filename)
+
+nrow(ml_data)
+
+ml_data$Class=factor(ml_data$Class)
+
+set.seed(3033)
+
+ml_data_smote<-smote_data(ml_data,100,200)
+
+ml_data_smote$Class=factor(ml_data_smote$Class)
+
+ml_data=ml_data_smote
+
+# intrain <- sample(1:nrow(ml_data),size = 0.7*nrow(ml_data)) 
+intrain <- createDataPartition(y = ml_data$Class, p= 0.7, list = FALSE)
+
+training <- ml_data[intrain,]
+
+nrow(training)
+
+testing <- ml_data[-intrain,]
+
+nrow(testing)
+
+ml_data<-training
+
+head(ml_data)
+
+# write.csv(ml_data_smote,"C:/Users/rifat/Desktop/R_milan/KB_Integrity_Constraints/dbp-max-card-smote.csv",row.names =   FALSE)
+
+prop.table(table(ml_data$Class))
+
+prop.table(table(ml_data_smote$Class))
+
+results<-ML_algorithms(ml_data_smote)
+
+# summarize differences between modes
+with_smote_data<- summary(results)
+
+# box and whisker plots to compare models
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+
+```
+```{r echo=FALSE}
+bwplot(results, scales=scales)
+```
+
