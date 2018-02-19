@@ -99,7 +99,7 @@ ML_algorithms<-function(training_data){
   fit.logic <- train(Class~., data=training_data, method="LogitBoost", trControl=control)
 
   # collect resamples
-  results <- resamples(list(CART=fit.cart,Bayesian=fit.bayes , SVM=fit.svm, KNN=fit.knn, RF=fit.rf,NNET=fit.nnet,GBM=fit.gbm, C45=fit.c45, LogisticRegression=fit.logic))
+  results <- resamples(list(DecisionTree.CART=fit.cart,Bayesian=fit.bayes , SupportVectorMachine=fit.svm, kNN=fit.knn, RandomForest=fit.rf,NeuralNetwork=fit.nnet,GradiantBoostModel=fit.gbm, DecisionTree.C45=fit.c45, LogisticRegression=fit.logic))
   
   return(results)
 }
