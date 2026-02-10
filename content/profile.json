@@ -1,0 +1,60 @@
+{
+  "name": "Mohammad Rifat Ahmmad Rashid",
+  "title": "Assistant Professor",
+  "degrees": [
+    {
+      "degree": "Ph.D. in Computer and Control Engineering",
+      "institution": "Polytechnic University of Turin, Italy",
+      "period": "2014-11 to 2018-09"
+    },
+    {
+      "degree": "M.Sc. in Computer Engineering",
+      "institution": "University of Pavia, Italy",
+      "period": "2012-09 to 2014-09"
+    },
+    {
+      "degree": "B.Eng. in Computer Science and Engineering",
+      "institution": "Khulna University, Bangladesh",
+      "period": "2005-04 to 2009-09"
+    }
+  ],
+  "affiliation": "Department of Computer Science and Engineering, East West University, Bangladesh",
+  "email": "rifat.abir@gmail.com",
+  "experience": [
+    {
+      "role": "Assistant Professor",
+      "organization": "East West University",
+      "period": "2022-02 to Present"
+    },
+    {
+      "role": "Assistant Professor",
+      "organization": "University of Liberal Arts Bangladesh",
+      "period": "2019-10 to 2022-02"
+    },
+    {
+      "role": "Researcher",
+      "organization": "LINKS Foundation",
+      "period": "2018-09 to 2019-09"
+    }
+  ],
+  "research_interests": [
+    "Data profiling and data quality analysis for large-scale knowledge bases",
+    "Machine learning and deep learning for anomaly detection in IIoT",
+    "Business intelligence and business process design",
+    "Energy-aware computing in micro devices",
+    "Privacy awareness and control for IoT scenarios"
+  ],
+  "projects": [
+    "BRAIN-IoT",
+    "MONSOON",
+    "COMPOSITION",
+    "Automated Knowledge Base Quality Assessment",
+    "open4citizens",
+    "IRMA"
+  ],
+  "social": {
+    "github": "https://github.com/rifat963",
+    "linkedin": "https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/",
+    "twitter": "https://twitter.com/rifat_rashid?lang=en"
+  }
+}
