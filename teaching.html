@@ -34,27 +34,46 @@
   <div class="container">
 <section class="card">
   <h1>Teaching</h1>
-  <h2>Undergraduate</h2>
-  <ul>
-    <li>CSE 445 - Computer Vision</li>
-    <li>CSE 475 - Machine Learning</li>
-    <li>CSE 366 - Artificial Intelligence</li>
-    <li>CSE 303 - Statistics for Data Science</li>
-  </ul>
+  <hr>
+  <div class="pub-tabs teach-tabs" role="tablist" aria-label="Teaching categories">
+    <button class="pub-tab active" type="button" role="tab" aria-selected="true" aria-controls="teach-courses" data-tab-target="teach-courses">Courses</button>
+    <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="teach-supervision" data-tab-target="teach-supervision">Supervision</button>
+  </div>
+  <hr class="section-line">
 
-  <h2>Graduate Level</h2>
-  <ul>
-    <li>CSE 521 - Machine Learning</li>
-    <li>CSE 527 - Big Data Analytics</li>
-  </ul>
+  <div class="teach-tab-panel active" id="teach-courses" role="tabpanel">
+    <div class="profile-section">
+      <h2>Undergraduate</h2>
+      <hr class="section-line">
+      <ul>
+        <li>CSE 445 - Computer Vision</li>
+        <li>CSE 475 - Machine Learning</li>
+        <li>CSE 366 - Artificial Intelligence</li>
+        <li>CSE 303 - Statistics for Data Science</li>
+      </ul>
+    </div>
 
-  <h2>Supervision</h2>
-  <p>I supervise undergraduate and graduate research in applied AI, data quality, anomaly detection, and industrial/healthcare analytics. I emphasize practical research skills, reproducibility, and strong technical writing so students can publish and deploy meaningful work.</p>
+    <div class="profile-section">
+      <h2>Graduate Level</h2>
+      <hr class="section-line">
+      <ul>
+        <li>CSE 521 - Machine Learning</li>
+        <li>CSE 527 - Big Data Analytics</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="teach-tab-panel" id="teach-supervision" role="tabpanel" hidden>
+    <div class="profile-section">
+      <h2>Supervision</h2>
+      <hr class="section-line">
+      <p>I supervise undergraduate and graduate research in applied AI, data quality, anomaly detection, and industrial/healthcare analytics. I emphasize practical research skills, reproducibility, and strong technical writing so students can publish and deploy meaningful work.</p>
+    </div>
+  </div>
 </section>
   </div>
 </main>
 <footer class="site-footer">
-  <hr>
   <div class="container">
     <p>&copy; 2026 Mohammad Rifat Ahmmad Rashid</p>
   </div>
@@ -65,6 +84,34 @@
     var links = document.querySelectorAll('.nav a');
     links.forEach(function (a) {
       if (a.getAttribute('href') === 'teaching.html') a.classList.add('active');
+    });
+  })();
+
+  (function() {
+    var tabWrap = document.querySelector('.teach-tabs');
+    if (!tabWrap) return;
+    var tabs = tabWrap.querySelectorAll('.pub-tab');
+    var panels = document.querySelectorAll('.teach-tab-panel');
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var targetId = tab.getAttribute('data-tab-target');
+        tabs.forEach(function(t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        panels.forEach(function(panel) {
+          panel.classList.remove('active');
+          panel.setAttribute('hidden', '');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        var target = document.getElementById(targetId);
+        if (target) {
+          target.classList.add('active');
+          target.removeAttribute('hidden');
+        }
+      });
     });
   })();
 </script>

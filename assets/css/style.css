@@ -1,6 +1,8 @@
 :root {
   --bg: #d9d9d7;
   --surface: #ffffff;
+  --panel-grad: linear-gradient(180deg, #f8f8f6 0%, #f1f1ee 100%);
+  --panel-border: #c9daf7;
   --text: #182033;
   --muted: #516079;
   --accent: #1a3767;
@@ -144,7 +146,7 @@ p {
 
 .title-block {
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, #fcfdff 0%, #f7faff 100%);
+  background: var(--surface);
   border-radius: 0.45rem;
   padding: 0.9rem 1rem;
   margin-bottom: 0.9rem;
@@ -178,7 +180,7 @@ p {
 
 .short-bio {
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, #fcfdff 0%, #f7faff 100%);
+  background: var(--panel-grad);
   border-radius: 0.45rem;
   padding: 0.9rem 1rem;
   margin-top: 1rem;
@@ -187,7 +189,7 @@ p {
 
 .research-interest {
   border: 1px solid var(--border);
-  background: #f3f7ff;
+  background: var(--panel-grad);
   border-radius: 0.45rem;
   padding: 0.75rem 0.9rem;
   margin: 0;
@@ -267,19 +269,63 @@ p {
 
 .pub-tab-panel {
   display: none;
+  border: 1px solid var(--panel-border);
+  border-radius: 0.45rem;
+  background: var(--panel-grad);
+  padding: 0.9rem 1rem;
 }
 
 .pub-tab-panel.active {
   display: block;
 }
 
+.teach-tab-panel {
+  display: none;
+}
+
+.teach-tab-panel.active {
+  display: block;
+}
+
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--panel-grad);
+  border: 1px solid var(--panel-border);
   border-top: 3px solid var(--accent);
   border-radius: 0.55rem;
   padding: 1.15rem;
   box-shadow: var(--shadow);
+}
+
+.current-focus-card {
+  background: var(--panel-grad);
+  border-color: var(--panel-border);
+}
+
+.open-project-card {
+  background: var(--panel-grad);
+  border-color: var(--panel-border);
+}
+
+.flat-top-card {
+  border-top: 1px solid var(--panel-border);
+}
+
+.profile-card {
+  padding: 20px;
+  background: #ffffff;
+  border-color: var(--border);
+}
+
+.profile-section {
+  border: 1px solid var(--panel-border);
+  border-radius: 0.45rem;
+  background: #ffffff;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-section:last-child {
+  margin-bottom: 0;
 }
 
 ul {
@@ -298,10 +344,26 @@ li {
 }
 
 .site-footer {
-  border-top: 1px solid var(--border);
-  padding: 1.1rem 0 1.7rem;
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 0.95rem 0 1.15rem;
   color: var(--muted);
   font-size: 0.94rem;
+}
+
+.site-footer .container {
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer hr {
+  border: 0;
+  border-top: 1px solid var(--panel-border);
+  margin: 0 0 0.55rem;
 }
 
 .footer-line {
@@ -366,4 +428,17 @@ a {
     align-items: flex-start;
     flex-direction: column;
   }
+
+}
+
+.page-student-style .card {
+  background: var(--panel-grad);
+  border-color: var(--panel-border);
+}
+
+.page-student-style .short-bio,
+.page-student-style .pub-tab-panel,
+.page-student-style .profile-section {
+  background: #ffffff;
+  border: 1px solid var(--panel-border);
 }
