@@ -1,22 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mohammad Rifat Ahmmad Rashid | Teaching</title>
-  <meta name="description" content="Teaching, supervision, and learning philosophy.">
+  <meta name="description" content="Teaching courses and supervision by Mohammad Rifat Ahmmad Rashid.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://rifat963.github.io/teaching.html">
-  <meta property="og:title" content="Mohammad Rifat Ahmmad Rashid | Teaching">
-  <meta property="og:description" content="Courses and supervision interests.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rifat963.github.io/teaching.html">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+
 <header class="site-header">
   <div class="container nav-wrap">
-    <a class="brand" href="index.html">Mohammad Rifat Ahmmad Rashid</a>
+    <a class="brand" href="index.html">Rifat Rashid</a>
     <nav class="nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="about.html">Profile</a>
@@ -24,96 +21,204 @@
       <a href="publications.html">Publications</a>
       <a href="teaching.html">Teaching</a>
       <a href="students.html">Students</a>
-      
       <a href="contact.html">Contact</a>
     </nav>
-    <button id="themeToggle" class="theme-btn" aria-label="Invert theme">Invert</button>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
+      <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="about.html">Profile</a><a href="research.html">Projects</a>
+  <a href="publications.html">Publications</a><a href="teaching.html">Teaching</a>
+  <a href="students.html">Students</a><a href="contact.html">Contact</a>
+</nav>
+
 <main>
   <div class="container">
-<section class="card">
-  <h1>Teaching</h1>
-  <hr>
-  <div class="pub-tabs teach-tabs" role="tablist" aria-label="Teaching categories">
-    <button class="pub-tab active" type="button" role="tab" aria-selected="true" aria-controls="teach-courses" data-tab-target="teach-courses">Courses</button>
-    <button class="pub-tab" type="button" role="tab" aria-selected="false" aria-controls="teach-supervision" data-tab-target="teach-supervision">Supervision</button>
-  </div>
-  <hr class="section-line">
 
-  <div class="teach-tab-panel active" id="teach-courses" role="tabpanel">
-    <div class="profile-section">
-      <h2>Undergraduate</h2>
-      <hr class="section-line">
-      <ul>
-        <li>CSE 445 - Computer Vision</li>
-        <li>CSE 475 - Machine Learning</li>
-        <li>CSE 366 - Artificial Intelligence</li>
-        <li>CSE 303 - Statistics for Data Science</li>
-      </ul>
+    <div class="page-header reveal">
+      <h1>Teaching</h1>
+      <p>Courses taught at East West University and supervision philosophy.</p>
     </div>
 
-    <div class="profile-section">
-      <h2>Graduate Level</h2>
-      <hr class="section-line">
-      <ul>
-        <li>CSE 521 - Machine Learning</li>
-        <li>CSE 527 - Big Data Analytics</li>
-      </ul>
+    <!-- Tabs -->
+    <div class="tab-list reveal" data-tab-group="teaching">
+      <button class="tab-btn active" data-tab="courses" data-tab-group="teaching">Courses</button>
+      <button class="tab-btn" data-tab="supervision" data-tab-group="teaching">Supervision</button>
+      <button class="tab-btn" data-tab="philosophy" data-tab-group="teaching">Philosophy</button>
     </div>
-  </div>
 
-  <div class="teach-tab-panel" id="teach-supervision" role="tabpanel" hidden>
-    <div class="profile-section">
-      <h2>Supervision</h2>
-      <hr class="section-line">
-      <p>I supervise undergraduate and graduate research in applied AI, data quality, anomaly detection, and industrial/healthcare analytics. I emphasize practical research skills, reproducibility, and strong technical writing so students can publish and deploy meaningful work.</p>
+    <!-- Courses Panel -->
+    <div class="tab-panel active" data-tab="courses" data-tab-group="teaching">
+
+      <div class="section-label reveal">
+        <h2 style="font-size:1rem;">Undergraduate Courses</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="grid-2 mb-3">
+        <div class="course-card reveal">
+          <span class="course-code">CSE 445</span>
+          <div>
+            <div class="course-name">Computer Vision</div>
+            <div class="course-level">Undergraduate · East West University</div>
+          </div>
+        </div>
+        <div class="course-card reveal reveal-delay-1">
+          <span class="course-code">CSE 475</span>
+          <div>
+            <div class="course-name">Machine Learning</div>
+            <div class="course-level">Undergraduate · East West University</div>
+          </div>
+        </div>
+        <div class="course-card reveal reveal-delay-2">
+          <span class="course-code">CSE 366</span>
+          <div>
+            <div class="course-name">Artificial Intelligence</div>
+            <div class="course-level">Undergraduate · East West University</div>
+          </div>
+        </div>
+        <div class="course-card reveal reveal-delay-3">
+          <span class="course-code">CSE 303</span>
+          <div>
+            <div class="course-name">Statistics for Data Science</div>
+            <div class="course-level">Undergraduate · East West University</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label reveal">
+        <h2 style="font-size:1rem;">Graduate Courses</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="grid-2">
+        <div class="course-card reveal">
+          <span class="course-code purple">CSE 521</span>
+          <div>
+            <div class="course-name">Machine Learning</div>
+            <div class="course-level">Graduate · East West University</div>
+          </div>
+        </div>
+        <div class="course-card reveal reveal-delay-1">
+          <span class="course-code purple">CSE 527</span>
+          <div>
+            <div class="course-name">Big Data Analytics</div>
+            <div class="course-level">Graduate · East West University</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-</section>
+
+    <!-- Supervision Panel -->
+    <div class="tab-panel" data-tab="supervision" data-tab-group="teaching" hidden>
+
+      <div class="card reveal mb-3">
+        <div class="section-label" style="margin-bottom:0.8rem;">
+          <h2 style="font-size:1.05rem;">Research Supervision</h2>
+        </div>
+        <p class="text-muted" style="font-size:0.93rem; line-height:1.8;">
+          I supervise undergraduate and graduate research in applied AI, data quality, anomaly detection, and industrial/healthcare analytics. I emphasize practical research skills, reproducibility, and strong technical writing so students can publish and deploy meaningful work.
+        </p>
+      </div>
+
+      <div class="section-label reveal">
+        <h2 style="font-size:1rem;">Open Supervision Topics</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="grid-auto">
+        <div class="opportunity-card reveal">
+          <div class="opportunity-icon">🧠</div>
+          <div>
+            <div class="opportunity-title">BCI &amp; Neural Signal Processing</div>
+            <div class="opportunity-desc">EEG-based intent decoding, emotion recognition, and assistive device control.</div>
+          </div>
+        </div>
+        <div class="opportunity-card reveal reveal-delay-1">
+          <div class="opportunity-icon">👁️</div>
+          <div>
+            <div class="opportunity-title">Computer Vision for Agriculture</div>
+            <div class="opportunity-desc">Plant disease detection, crop monitoring, and precision farming datasets.</div>
+          </div>
+        </div>
+        <div class="opportunity-card reveal reveal-delay-2">
+          <div class="opportunity-icon">🕸️</div>
+          <div>
+            <div class="opportunity-title">Knowledge Graph Quality</div>
+            <div class="opportunity-desc">KB profiling, data quality metrics, and validation using ML models.</div>
+          </div>
+        </div>
+        <div class="opportunity-card reveal">
+          <div class="opportunity-icon">📡</div>
+          <div>
+            <div class="opportunity-title">IoT &amp; Anomaly Detection</div>
+            <div class="opportunity-desc">Industrial IoT systems, sensor data analysis, and anomaly detection pipelines.</div>
+          </div>
+        </div>
+        <div class="opportunity-card reveal reveal-delay-1">
+          <div class="opportunity-icon">⛓️</div>
+          <div>
+            <div class="opportunity-title">Blockchain Applications</div>
+            <div class="opportunity-desc">Supply chain traceability, land management, and decentralized systems.</div>
+          </div>
+        </div>
+        <div class="opportunity-card reveal reveal-delay-2">
+          <div class="opportunity-icon">🤖</div>
+          <div>
+            <div class="opportunity-title">LLM &amp; RAG Systems</div>
+            <div class="opportunity-desc">Retrieval-augmented generation, knowledge-grounded QA, hallucination reduction.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Philosophy Panel -->
+    <div class="tab-panel" data-tab="philosophy" data-tab-group="teaching" hidden>
+      <div class="grid-2">
+        <div class="card reveal">
+          <div class="card-icon" style="margin-bottom:0.8rem;">🎯</div>
+          <h3 style="font-size:1rem; margin-bottom:0.5rem;">Goal-Oriented Learning</h3>
+          <p class="text-muted text-sm">I design courses around concrete, deployable outcomes — every student should be able to build and explain a working system by the end of the semester.</p>
+        </div>
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon purple" style="margin-bottom:0.8rem;">🔬</div>
+          <h3 style="font-size:1rem; margin-bottom:0.5rem;">Reproducible Research</h3>
+          <p class="text-muted text-sm">Strong emphasis on clean implementation, reproducible experiments, and clear documentation — essential skills for both academia and industry.</p>
+        </div>
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon" style="margin-bottom:0.8rem;">✍️</div>
+          <h3 style="font-size:1rem; margin-bottom:0.5rem;">Technical Writing</h3>
+          <p class="text-muted text-sm">Students learn to communicate research clearly through papers, reports, and presentations — with the goal of publishing meaningful, impactful work.</p>
+        </div>
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon purple" style="margin-bottom:0.8rem;">🌍</div>
+          <h3 style="font-size:1rem; margin-bottom:0.5rem;">Real-World Impact</h3>
+          <p class="text-muted text-sm">Research projects are grounded in real-world problems — agriculture, healthcare, smart cities, and assistive technology — ensuring students see the broader value of their work.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </main>
+
 <footer class="site-footer">
-  <div class="container">
-    <p>&copy; 2026 Mohammad Rifat Ahmmad Rashid</p>
+  <div class="container footer-inner">
+    <span class="footer-brand">Mohammad Rifat Ahmmad Rashid</span>
+    <span class="footer-copy">&copy; 2026 · East West University, Bangladesh</span>
+    <div class="footer-links">
+      <a href="https://github.com/rifat963" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:rifat.abir@gmail.com">Email</a>
+    </div>
   </div>
 </footer>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 <script src="assets/js/main.js"></script>
-<script>
-  (function() {
-    var links = document.querySelectorAll('.nav a');
-    links.forEach(function (a) {
-      if (a.getAttribute('href') === 'teaching.html') a.classList.add('active');
-    });
-  })();
-
-  (function() {
-    var tabWrap = document.querySelector('.teach-tabs');
-    if (!tabWrap) return;
-    var tabs = tabWrap.querySelectorAll('.pub-tab');
-    var panels = document.querySelectorAll('.teach-tab-panel');
-
-    tabs.forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        var targetId = tab.getAttribute('data-tab-target');
-        tabs.forEach(function(t) {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        panels.forEach(function(panel) {
-          panel.classList.remove('active');
-          panel.setAttribute('hidden', '');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        var target = document.getElementById(targetId);
-        if (target) {
-          target.classList.add('active');
-          target.removeAttribute('hidden');
-        }
-      });
-    });
-  })();
-</script>
 </body>
 </html>

@@ -1,19 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mohammad Rifat Ahmmad Rashid | Home</title>
-  <meta name="description" content="Official website of Mohammad Rifat Ahmmad Rashid, Ph.D., Assistant Professor at East West University.">
+  <meta name="description" content="Official website of Mohammad Rifat Ahmmad Rashid, Ph.D., Associate Professor at East West University.">
   <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://rifat963.github.io/index.html">
+  <link rel="canonical" href="https://rifat963.github.io/">
   <meta property="og:title" content="Mohammad Rifat Ahmmad Rashid | Home">
   <meta property="og:description" content="Research, publications, and professional profile of Mohammad Rifat Ahmmad Rashid.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rifat963.github.io/index.html">
+  <meta property="og:url" content="https://rifat963.github.io/">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+
+<!-- ── Header ─────────────────────────────────────────────── -->
 <header class="site-header">
   <div class="container nav-wrap">
     <a class="brand" href="index.html">Rifat Rashid</a>
@@ -24,78 +26,207 @@
       <a href="publications.html">Publications</a>
       <a href="teaching.html">Teaching</a>
       <a href="students.html">Students</a>
-      
       <a href="contact.html">Contact</a>
     </nav>
-    <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">Theme</button>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- Mobile Nav -->
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="about.html">Profile</a>
+  <a href="research.html">Projects</a>
+  <a href="publications.html">Publications</a>
+  <a href="teaching.html">Teaching</a>
+  <a href="students.html">Students</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<!-- ── Main ───────────────────────────────────────────────── -->
 <main>
   <div class="container">
-<section class="hero">
-  <div class="profile-col">
-    <img src="img/p1.jpg" alt="Portrait of Mohammad Rifat Ahmmad Rashid">
-  </div>
-  <div>
-    <div class="title-block">
-      <h1>Mohammad Rifat Ahmmad Rashid, Ph.D.</h1>
-      <hr>
-      <p class="subtitle">Associate Professor<br>Department of Computer Science and Engineering<br>East West University<br>Aftabnagar, Dhaka 1212, Bangladesh</p>
-    
-    </div>
-    <p class="short-bio">Currently, I am serving as an Associate Professor in the Department of Computer Science and Engineering at East West University (EWU), Bangladesh. Before joining EWU, I worked as a researcher at the LINKS Foundation in the Pervasive Technologies Research Area, within the IoT Service Management Unit. Previously, I received my Ph.D. in Computer and Control Engineering from the Polytechnic University of Turin, and my Master's in Computer Engineering from the University of Pavia. My research focused on Social Media Data Integration and Event Management for Smart Cities. Before that, I obtained my B.Eng. in Computer Science and Engineering from Khulna University, Bangladesh. Regarding my Ph.D. research project, I developed a data quality assessment methodology for large-scale knowledge bases. The primary emphasis was on automated knowledge base quality assessment using evolution analysis.</p>
-    <div class="research-row">
-      <a class="google-scholar" href="https://scholar.google.com/citations?user=fXu1UdgAAAAJ&amp;hl=en" target="_blank">
-        <img src="http://www.ewubd.edu/themes/east-west-university/assets/default/images/Google_Scholar_logo_2015.png" alt="Google Scholar">
-      </a>
-      <p class="research-interest"><strong>Research Interests:</strong> Sustainable and Applied AI, Computer Vision, Knowledge Graphs, and IoT/Blockchain-Enabled Trustworthy Systems.</p>
-    </div>
-    <!--<div class="quick-links">
-      <a class="btn btn-primary" href="publications.html">Publication</a>
-      <a class="btn btn-primary" href="research.html">Projects Overview</a>
-      <a class="btn btn-primary" href="contact.html">Contact</a>
-    </div> !-->
-  </div>
-</section>
 
-<section class="grid-2" aria-label="Highlights">
-  <article class="card current-focus-card flat-top-card">
-    
-    <h2 class="section-title">Current Focus</h2>
-    <hr>
-    <div class="profile-section">
-    <p>Current working projects:</p>
-    <ul>
-      <li><strong>A Brain Computer Interface System to Control Wheelchair for Severe Mobility Impaired Persons</strong><br>Developing an assistive BCI pipeline for real-time intent decoding and safe wheelchair navigation, focused on reliability, low-latency response, and practical deployment in mobility-support scenarios.</li>
-      <li><strong>Structured RAG with Graph Databases</strong><br>Building retrieval-augmented generation workflows that combine structured knowledge graphs with semantic retrieval to improve factual grounding, multi-hop reasoning, and answer traceability.</li>
-      <li><strong>BCI-Based Emotion Detection with Graph Neural Networks</strong><br>Designing graph-based deep learning models to capture spatial and temporal dependencies in brain-signal data for robust emotion-state recognition and interpretable affective computing.</li>
-    </ul>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-photo-wrap reveal">
+        <img class="hero-photo" src="img/p1.jpg" alt="Portrait of Mohammad Rifat Ahmmad Rashid">
+        <span class="hero-photo-badge">Ph.D.</span>
+      </div>
+
+      <div class="hero-content">
+        <h1 class="hero-name reveal">
+          Mohammad Rifat<br><span>Ahmmad Rashid</span>
+        </h1>
+
+        <div class="hero-title reveal reveal-delay-1">
+          <span id="typingRole">Associate Professor</span><span style="color:var(--accent)">|</span><br>
+          Department of Computer Science and Engineering<br>
+          East West University, Dhaka 1212, Bangladesh
+        </div>
+
+        <div class="hero-tags reveal reveal-delay-2">
+          <span class="tag">🧠 Applied AI</span>
+          <span class="tag">👁️ Computer Vision</span>
+          <span class="tag purple">🕸️ Knowledge Graphs</span>
+          <span class="tag purple">📡 IoT Systems</span>
+          <span class="tag">⛓️ Blockchain</span>
+          <span class="tag">🧬 BCI Research</span>
+        </div>
+
+        <div class="hero-links reveal reveal-delay-3">
+          <a class="btn btn-primary" href="publications.html">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+            Publications
+          </a>
+          <a class="btn btn-outline" href="research.html">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Projects
+          </a>
+          <a class="btn btn-outline" href="https://scholar.google.com/citations?user=fXu1UdgAAAAJ&hl=en" target="_blank" rel="noopener">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+            Scholar
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/rifat963" target="_blank" rel="noopener">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+          <a class="btn btn-ghost" href="contact.html">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Contact
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-bar reveal">
+      <div class="stat-item">
+        <div class="stat-number" data-target="30" data-suffix="+">0+</div>
+        <div class="stat-label">Journal Papers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="18" data-suffix="+">0+</div>
+        <div class="stat-label">Conferences</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="7" data-suffix="+">0+</div>
+        <div class="stat-label">Years Teaching</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="4">0</div>
+        <div class="stat-label">Active Projects</div>
+      </div>
     </div>
-  </article>
-  <article class="card open-project-card flat-top-card">
-    <h2 class="section-title">GitHub and Open Projects</h2>
-    <hr>
-    <div class="profile-section">
-    <p>I actively share code, datasets, and project prototypes through GitHub to support reproducible research, student collaboration, and real-world AI deployment.</p>
-    <p><strong>GitHub Profile:</strong> <a href="https://github.com/rifat963" target="_blank" rel="noopener">https://github.com/rifat963</a></p>
-    </div>
-  </article>
-</section>
-  </div>
+
+    <!-- Research Interests -->
+    <section class="section reveal">
+      <div class="section-label">
+        <h2>Research Interests</h2>
+        <div class="section-label-line"></div>
+        <a href="research.html" class="btn btn-ghost text-sm">View Projects →</a>
+      </div>
+      <div class="interest-grid">
+        <div class="interest-item"><span class="interest-dot"></span>Sustainable &amp; Applied AI</div>
+        <div class="interest-item"><span class="interest-dot"></span>Computer Vision</div>
+        <div class="interest-item"><span class="interest-dot purple"></span>Knowledge Graphs</div>
+        <div class="interest-item"><span class="interest-dot purple"></span>Brain-Computer Interfaces</div>
+        <div class="interest-item"><span class="interest-dot"></span>IoT &amp; Smart Systems</div>
+        <div class="interest-item"><span class="interest-dot"></span>Blockchain Applications</div>
+        <div class="interest-item"><span class="interest-dot purple"></span>Graph Neural Networks</div>
+        <div class="interest-item"><span class="interest-dot"></span>RAG &amp; LLM Systems</div>
+      </div>
+    </section>
+
+    <!-- Current Focus + GitHub -->
+    <section class="section">
+      <div class="section-label">
+        <h2>Current Focus</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="grid-2">
+
+        <div class="card card-accent card-lift reveal">
+          <div class="card-header">
+            <div class="card-icon">🧠</div>
+            <span class="badge">Active</span>
+          </div>
+          <h3 style="font-size:0.98rem; margin-bottom:0.6rem;">BCI Wheelchair Control System</h3>
+          <p class="text-muted text-sm">Developing an assistive BCI pipeline for real-time intent decoding and safe wheelchair navigation, focused on reliability, low-latency response, and practical deployment for mobility-impaired persons.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag">EEG Signal Processing</span>
+            <span class="tag">Embedded Systems</span>
+          </div>
+        </div>
+
+        <div class="card card-accent card-lift reveal reveal-delay-1">
+          <div class="card-header">
+            <div class="card-icon purple">🕸️</div>
+            <span class="badge purple">Active</span>
+          </div>
+          <h3 style="font-size:0.98rem; margin-bottom:0.6rem;">Structured RAG with Graph Databases</h3>
+          <p class="text-muted text-sm">Building retrieval-augmented generation workflows combining structured knowledge graphs with semantic retrieval to improve factual grounding, multi-hop reasoning, and answer traceability.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag purple">LLM</span>
+            <span class="tag purple">Knowledge Graph</span>
+          </div>
+        </div>
+
+        <div class="card card-purple card-lift reveal reveal-delay-2">
+          <div class="card-header">
+            <div class="card-icon purple">📊</div>
+            <span class="badge purple">Active</span>
+          </div>
+          <h3 style="font-size:0.98rem; margin-bottom:0.6rem;">BCI Emotion Detection with GNNs</h3>
+          <p class="text-muted text-sm">Designing graph-based deep learning models to capture spatial and temporal dependencies in brain-signal data for robust emotion-state recognition and interpretable affective computing.</p>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="tag purple">Graph Neural Networks</span>
+            <span class="tag">Affective Computing</span>
+          </div>
+        </div>
+
+        <div class="card card-lift reveal reveal-delay-3">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </div>
+            <span class="badge">Open Source</span>
+          </div>
+          <h3 style="font-size:0.98rem; margin-bottom:0.6rem;">GitHub &amp; Open Projects</h3>
+          <p class="text-muted text-sm">I actively share code, datasets, and project prototypes to support reproducible research, student collaboration, and real-world AI deployment.</p>
+          <a class="btn btn-outline mt-2" href="https://github.com/rifat963" target="_blank" rel="noopener" style="font-size:0.82rem; padding:0.38rem 0.9rem;">
+            Visit github.com/rifat963 →
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /container -->
 </main>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
 <footer class="site-footer">
-  <div class="container">
-    <p>&copy; 2026 Mohammad Rifat Ahmmad Rashid</p>
+  <div class="container footer-inner">
+    <span class="footer-brand">Mohammad Rifat Ahmmad Rashid</span>
+    <span class="footer-copy">&copy; 2026 · East West University, Bangladesh</span>
+    <div class="footer-links">
+      <a href="https://github.com/rifat963" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:rifat.abir@gmail.com">Email</a>
+    </div>
   </div>
 </footer>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 <script src="assets/js/main.js"></script>
-<script>
-  (function() {
-    var links = document.querySelectorAll('.nav a');
-    links.forEach(function (a) {
-      if (a.getAttribute('href') === 'index.html') a.classList.add('active');
-    });
-  })();
-</script>
 </body>
 </html>
