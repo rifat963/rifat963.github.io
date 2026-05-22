@@ -214,4 +214,162 @@
     setTimeout(typeStep, 600);
   }
 
+  /* Self-supervised learning page interactions */
+  const sslModels = {
+    dinov2: {
+      family: 'Teacher-student',
+      name: 'DINOv2',
+      source: 'https://arxiv.org/abs/2304.07193',
+      idea: 'DINOv2 trains robust visual features without supervision by scaling self-distillation, curated data, and ViT backbones, then distilling strong teachers into smaller models.',
+      learnsBy: 'Matching student features to a teacher representation from augmented image views.',
+      detectionUse: 'Use the encoder as a pretrained backbone, then fine-tune a detection head on labeled boxes.',
+      torchFocus: 'Teacher network, student network, centering/sharpening, and feature extraction.',
+      steps: [
+        ['Image views', 'Global and local crops'],
+        ['Student ViT', 'Learns online'],
+        ['Teacher ViT', 'EMA target network'],
+        ['Feature loss', 'Match distributions'],
+        ['Backbone', 'Transfer to detector']
+      ]
+    },
+    byol: {
+      family: 'Negative-free Siamese',
+      name: 'BYOL',
+      source: 'https://papers.nips.cc/paper_files/paper/2020/hash/f3ada80d5c4ee70142b17b8192b2958e-Abstract.html',
+      idea: 'BYOL learns from two augmented views without negative samples. An online network predicts the target network representation, while the target is updated by moving average.',
+      learnsBy: 'Predicting a target representation from another view of the same image.',
+      detectionUse: 'The learned encoder can initialize a detector backbone when labels are limited.',
+      torchFocus: 'Online encoder, target encoder, predictor head, stop-gradient, and EMA updates.',
+      steps: [
+        ['Two views', 'Different augmentations'],
+        ['Online net', 'Encoder + predictor'],
+        ['Target net', 'EMA encoder'],
+        ['L2 loss', 'No negatives'],
+        ['Encoder', 'Reuse features']
+      ]
+    },
+    dinov3: {
+      family: 'Scaled SSL backbone',
+      name: 'DINOv3',
+      source: 'https://ai.meta.com/dinov3/',
+      idea: 'DINOv3 scales self-supervised vision training to produce universal backbones for dense and global visual tasks across domains such as web and satellite imagery.',
+      learnsBy: 'Large-scale self-supervised training with strong dense visual features for downstream transfer.',
+      detectionUse: 'Use DINOv3 features as a high-quality backbone or feature source for detection and segmentation pipelines.',
+      torchFocus: 'Loading pretrained backbones, freezing/unfreezing stages, and extracting dense patch features.',
+      steps: [
+        ['Large corpus', 'Unlabeled images'],
+        ['ViT backbone', 'Scaled training'],
+        ['Dense features', 'Patch-level signal'],
+        ['Post-hoc use', 'Flexible adaptation'],
+        ['Detector', 'Fine-tuned boxes']
+      ]
+    },
+    jepa: {
+      family: 'Joint embedding prediction',
+      name: 'I-JEPA',
+      source: 'https://arxiv.org/abs/2301.08243',
+      idea: 'I-JEPA predicts target block representations from context block representations in embedding space, avoiding direct pixel reconstruction.',
+      learnsBy: 'Predicting missing target embeddings from visible context embeddings in the same image.',
+      detectionUse: 'Its semantic ViT features can initialize downstream dense tasks after supervised fine-tuning.',
+      torchFocus: 'Context encoder, target encoder, predictor, masking blocks, and embedding-space loss.',
+      steps: [
+        ['Context block', 'Visible image area'],
+        ['Target blocks', 'Masked regions'],
+        ['Encoders', 'Context + target'],
+        ['Predictor', 'Embedding target'],
+        ['Semantic ViT', 'Transfer learning']
+      ]
+    },
+    mae: {
+      family: 'Masked reconstruction',
+      name: 'MAE',
+      source: 'https://arxiv.org/abs/2111.06377',
+      idea: 'MAE masks a high percentage of image patches, encodes only visible patches, and trains a lightweight decoder to reconstruct the missing pixels.',
+      learnsBy: 'Reconstructing masked image patches from visible image patches.',
+      detectionUse: 'After pretraining, discard the decoder and fine-tune the encoder inside a detection architecture.',
+      torchFocus: 'Patchify, random masking, visible-token encoder, lightweight decoder, and reconstruction loss.',
+      steps: [
+        ['Patchify', 'Split image'],
+        ['Mask 75%', 'Hide patches'],
+        ['Encoder', 'Visible patches only'],
+        ['Decoder', 'Reconstruct pixels'],
+        ['Encoder', 'Fine-tune detector']
+      ]
+    }
+  };
+
+  function renderSslModel(key) {
+    const model = sslModels[key];
+    if (!model) return;
+    const family = document.getElementById('sslModelFamily');
+    const name = document.getElementById('sslModelName');
+    const source = document.getElementById('sslModelSource');
+    const idea = document.getElementById('sslModelIdea');
+    const learnsBy = document.getElementById('sslLearnsBy');
+    const detectionUse = document.getElementById('sslDetectionUse');
+    const torchFocus = document.getElementById('sslTorchFocus');
+    const architecture = document.getElementById('sslArchitecture');
+    if (!family || !name || !source || !idea || !learnsBy || !detectionUse || !torchFocus || !architecture) return;
+
+    family.textContent = model.family;
+    name.textContent = model.name;
+    source.href = model.source;
+    idea.textContent = model.idea;
+    learnsBy.textContent = model.learnsBy;
+    detectionUse.textContent = model.detectionUse;
+    torchFocus.textContent = model.torchFocus;
+    architecture.innerHTML = model.steps.map(function (step) {
+      return '<div class="arch-step"><strong>' + step[0] + '</strong><span>' + step[1] + '</span></div>';
+    }).join('');
+  }
+
+  document.querySelectorAll('.ssl-model-button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const key = btn.getAttribute('data-ssl-model');
+      document.querySelectorAll('.ssl-model-button').forEach(function (item) {
+        const active = item === btn;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      renderSslModel(key);
+    });
+  });
+  renderSslModel('dinov2');
+
+  const pipelineTexts = [
+    'Start with many class-relevant images. They do not need bounding boxes for SSL pretraining.',
+    'Train the encoder with an SSL objective such as teacher-student matching, masked reconstruction, or embedding prediction.',
+    'Attach a detection neck and head so feature maps can become boxes, objectness scores, and class probabilities.',
+    'Fine-tune with labeled bounding boxes. Freeze the backbone at first if the dataset is small, then unfreeze carefully.',
+    'Report mAP, precision, recall, confidence thresholds, and failure cases before deployment.'
+  ];
+  const pipelineOutput = document.getElementById('pipelineOutput');
+  document.querySelectorAll('.pipeline-step').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const index = parseInt(btn.getAttribute('data-step'), 10);
+      document.querySelectorAll('.pipeline-step').forEach(function (item) {
+        item.classList.toggle('active', item === btn);
+      });
+      if (pipelineOutput) pipelineOutput.textContent = pipelineTexts[index] || pipelineTexts[0];
+    });
+  });
+
+  document.querySelectorAll('[data-code-tabs]').forEach(function (wrap) {
+    const buttons = wrap.querySelectorAll('[data-code-tab]');
+    const panels = wrap.querySelectorAll('[data-code-panel]');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const target = btn.getAttribute('data-code-tab');
+        buttons.forEach(function (item) {
+          item.classList.toggle('active', item === btn);
+        });
+        panels.forEach(function (panel) {
+          const show = panel.getAttribute('data-code-panel') === target;
+          panel.classList.toggle('active', show);
+          show ? panel.removeAttribute('hidden') : panel.setAttribute('hidden', '');
+        });
+      });
+    });
+  });
+
 })();

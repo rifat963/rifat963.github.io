@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSL + Semantic Segmentation | Digital Image Processing</title>
+  <meta name="description" content="Teaching page explaining how self-supervised backbones are used for semantic segmentation with commented PyTorch code.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://rifat963.github.io/ssl-semantic-segmentation.html">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">Rifat Rashid</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">Profile</a>
+      <a href="research.html">Projects</a>
+      <a href="publications.html">Publications</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="students.html">Students</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">Moon</button>
+      <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="about.html">Profile</a><a href="research.html">Projects</a>
+  <a href="publications.html">Publications</a><a href="teaching.html">Teaching</a>
+  <a href="students.html">Students</a><a href="contact.html">Contact</a>
+</nav>
+
+<main class="ssl-page">
+  <div class="ssl-hero segmentation-hero">
+    <div class="container ssl-hero-inner reveal">
+      <div>
+        <span class="badge">CSE 438 Digital Image Processing</span>
+        <h1>Self-Supervised Learning + Semantic Segmentation</h1>
+        <p>
+          This page explains how an SSL pretrained encoder becomes the backbone of a dense
+          prediction model, reducing label demand and improving transfer when segmentation masks are limited.
+        </p>
+      </div>
+      <div class="ssl-hero-panel" aria-label="SSL segmentation flow">
+        <div class="flow-node active">Unlabeled images</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">SSL backbone</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">Segmentation decoder</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">Pixel mask</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="section reveal" aria-labelledby="ssl-seg-logic">
+      <div class="section-label">
+        <h2 id="ssl-seg-logic">How the Combined Logic Works</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="backbone-transfer-grid">
+        <div class="transfer-card">
+          <span class="ssl-mini-label">Stage 1</span>
+          <h3>Pretrain encoder</h3>
+          <p>DINO, MAE, JEPA, or BYOL learns visual features from unlabeled images using crops, masks, targets, or teacher-student matching.</p>
+        </div>
+        <div class="transfer-card">
+          <span class="ssl-mini-label">Stage 2</span>
+          <h3>Add decoder</h3>
+          <p>A segmentation decoder upsamples encoder features and produces class logits for every pixel.</p>
+        </div>
+        <div class="transfer-card">
+          <span class="ssl-mini-label">Stage 3</span>
+          <h3>Fine-tune masks</h3>
+          <p>Supervised training uses labeled masks. The backbone can be frozen first, then unfrozen with a smaller learning rate.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="ssl-seg-code">
+      <div class="section-label">
+        <h2 id="ssl-seg-code">PyTorch Code With Comments</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="code-tabs" data-code-tabs>
+        <div class="tab-list" role="tablist" aria-label="SSL segmentation code">
+          <button class="tab-btn active" data-code-tab="backbone">Backbone</button>
+          <button class="tab-btn" data-code-tab="decoder">Decoder</button>
+          <button class="tab-btn" data-code-tab="finetune">Fine-tune</button>
+          <button class="tab-btn" data-code-tab="freeze">Freeze Strategy</button>
+        </div>
+
+        <pre class="code-block active" data-code-panel="backbone"><code>import torch
+import torch.nn as nn
+from torchvision.models import vit_b_16
+
+class SSLViTBackbone(nn.Module):
+    def __init__(self, checkpoint_path):
+        super().__init__()
+        self.encoder = vit_b_16(weights=None)
+        self.encoder.heads = nn.Identity()
+
+        # Load weights learned from an SSL method such as MAE or DINO.
+        # strict=False is useful when the checkpoint also contains a projector.
+        state = torch.load(checkpoint_path, map_location="cpu")
+        self.encoder.load_state_dict(state, strict=False)
+
+    def forward(self, x):
+        # A real dense ViT implementation should return patch tokens.
+        # This simplified example returns a global feature vector.
+        return self.encoder(x)</code></pre>
+
+        <pre class="code-block" data-code-panel="decoder" hidden><code>class SimpleSegmentationHead(nn.Module):
+    def __init__(self, in_channels=768, num_classes=6):
+        super().__init__()
+        self.proj = nn.Sequential(
+            # 1x1 convolution maps SSL feature channels to class channels.
+            nn.Conv2d(in_channels, 256, kernel_size=1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, num_classes, kernel_size=1)
+        )
+
+    def forward(self, features, image_size):
+        logits = self.proj(features)
+        # Upsample low-resolution logits to the original mask size.
+        return nn.functional.interpolate(
+            logits,
+            size=image_size,
+            mode="bilinear",
+            align_corners=False
+        )</code></pre>
+
+        <pre class="code-block" data-code-panel="finetune" hidden><code>criterion = nn.CrossEntropyLoss(ignore_index=255)
+
+optimizer = torch.optim.AdamW([
+    {
+        "params": backbone.parameters(),
+        "lr": 1e-5  # small LR protects pretrained SSL features
+    },
+    {
+        "params": decoder.parameters(),
+        "lr": 1e-4  # larger LR because decoder starts from scratch
+    }
+], weight_decay=1e-4)
+
+for images, masks in train_loader:
+    images = images.to(device)
+    masks = masks.to(device)
+
+    features = backbone(images)
+    logits = decoder(features, image_size=masks.shape[-2:])
+
+    loss = criterion(logits, masks)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()</code></pre>
+
+        <pre class="code-block" data-code-panel="freeze" hidden><code># Phase 1: train only the decoder.
+for param in backbone.parameters():
+    param.requires_grad = False
+
+for param in decoder.parameters():
+    param.requires_grad = True
+
+# Phase 2: unfreeze the last encoder blocks.
+# This adapts SSL features to the segmentation dataset.
+for name, param in backbone.named_parameters():
+    if "encoder.layers.encoder_layer_10" in name or "encoder.layers.encoder_layer_11" in name:
+        param.requires_grad = True
+
+# Always build the optimizer after changing requires_grad.
+trainable_params = filter(lambda p: p.requires_grad, list(backbone.parameters()) + list(decoder.parameters()))</code></pre>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="practical-notes">
+      <div class="section-label">
+        <h2 id="practical-notes">Training Notes for Students</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="ssl-summary-grid">
+        <div class="ssl-summary-item">
+          <strong>When labels are scarce</strong>
+          <span>Use SSL pretraining on unlabeled domain images, then fine-tune with the smaller labeled mask dataset.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>When masks are noisy</strong>
+          <span>Freeze more of the backbone and train the decoder first, so noisy masks do not destroy general visual features.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>When objects are small</strong>
+          <span>Use higher image resolution, multi-scale features, and class-balanced losses if foreground pixels are rare.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="references">
+      <div class="section-label">
+        <h2 id="references">References for Students</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="reference-grid">
+        <a href="https://arxiv.org/abs/2304.07193" target="_blank" rel="noopener">DINOv2</a>
+        <a href="https://arxiv.org/abs/2111.06377" target="_blank" rel="noopener">MAE</a>
+        <a href="https://arxiv.org/abs/2301.08243" target="_blank" rel="noopener">I-JEPA</a>
+        <a href="https://arxiv.org/abs/2006.07733" target="_blank" rel="noopener">BYOL</a>
+        <a href="https://arxiv.org/abs/2112.01527" target="_blank" rel="noopener">SegFormer</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">Mohammad Rifat Ahmmad Rashid</span>
+    <div class="footer-links">
+      <a href="https://github.com/rifat963" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:rifat.abir@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

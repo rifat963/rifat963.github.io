@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semantic Segmentation | Digital Image Processing</title>
+  <meta name="description" content="Interactive teaching page for semantic segmentation logic, foundation models, and PyTorch training code.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://rifat963.github.io/semantic-segmentation.html">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">Rifat Rashid</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">Profile</a>
+      <a href="research.html">Projects</a>
+      <a href="publications.html">Publications</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="students.html">Students</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">Moon</button>
+      <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="about.html">Profile</a><a href="research.html">Projects</a>
+  <a href="publications.html">Publications</a><a href="teaching.html">Teaching</a>
+  <a href="students.html">Students</a><a href="contact.html">Contact</a>
+</nav>
+
+<main class="ssl-page">
+  <div class="ssl-hero segmentation-hero">
+    <div class="container ssl-hero-inner reveal">
+      <div>
+        <span class="badge">CSE 438 Digital Image Processing</span>
+        <h1>Semantic Segmentation</h1>
+        <p>
+          Semantic segmentation assigns a class label to every pixel. Students should understand
+          the full path from image tensors to dense class maps, loss functions, metrics, and modern foundation models.
+        </p>
+      </div>
+      <div class="segmentation-mask-demo" aria-label="Semantic segmentation visual">
+        <div class="mask-cell road">road</div>
+        <div class="mask-cell car">car</div>
+        <div class="mask-cell sky">sky</div>
+        <div class="mask-cell tree">tree</div>
+        <div class="mask-cell person">person</div>
+        <div class="mask-cell building">building</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="section reveal" aria-labelledby="segmentation-logic">
+      <div class="section-label">
+        <h2 id="segmentation-logic">How the Logic Works</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="detector-flow segmentation-flow" aria-label="semantic segmentation pipeline">
+        <div>Input image<br><span>H x W x 3</span></div>
+        <span>to</span>
+        <div>Encoder<br><span>features</span></div>
+        <span>to</span>
+        <div>Decoder<br><span>upsampling</span></div>
+        <span>to</span>
+        <div>Logits<br><span>C x H x W</span></div>
+        <span>to</span>
+        <div>Mask<br><span>argmax per pixel</span></div>
+      </div>
+      <div class="ssl-summary-grid mt-2">
+        <div class="ssl-summary-item">
+          <strong>Pixel classifier</strong>
+          <span>Every pixel receives a class score, so the output has one channel per semantic class.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>Dense supervision</strong>
+          <span>Training uses masks where each pixel value is a class id such as road, tree, car, or background.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>Evaluation</strong>
+          <span>Mean IoU compares predicted and ground-truth regions class by class, then averages the result.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="foundation-models">
+      <div class="section-label">
+        <h2 id="foundation-models">Five Recent Foundation Models</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="foundation-grid">
+        <article class="transfer-card">
+          <span class="ssl-mini-label">Promptable masks</span>
+          <h3>SAM</h3>
+          <p>Segment Anything introduced promptable segmentation with point, box, and mask prompts, trained on the large SA-1B mask dataset.</p>
+        </article>
+        <article class="transfer-card">
+          <span class="ssl-mini-label">Images + video</span>
+          <h3>SAM 2</h3>
+          <p>SAM 2 extends promptable segmentation to images and videos with a streaming memory design for object masks across frames.</p>
+        </article>
+        <article class="transfer-card">
+          <span class="ssl-mini-label">Open-vocabulary</span>
+          <h3>SEEM</h3>
+          <p>SEEM supports interactive segmentation from points, boxes, scribbles, masks, text, and referring expressions.</p>
+        </article>
+        <article class="transfer-card">
+          <span class="ssl-mini-label">In-context segmentation</span>
+          <h3>SegGPT</h3>
+          <p>SegGPT frames segmentation as in-context visual prompting, learning to produce masks from example image-mask pairs.</p>
+        </article>
+        <article class="transfer-card">
+          <span class="ssl-mini-label">Universal segmentation</span>
+          <h3>OneFormer</h3>
+          <p>OneFormer uses one transformer architecture for semantic, instance, and panoptic segmentation with task-conditioned training.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="pytorch-training">
+      <div class="section-label">
+        <h2 id="pytorch-training">PyTorch Training Code With Comments</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="code-tabs" data-code-tabs>
+        <div class="tab-list" role="tablist" aria-label="Semantic segmentation code">
+          <button class="tab-btn active" data-code-tab="dataset">Dataset</button>
+          <button class="tab-btn" data-code-tab="model">Model</button>
+          <button class="tab-btn" data-code-tab="train">Train</button>
+          <button class="tab-btn" data-code-tab="metric">IoU Metric</button>
+        </div>
+
+        <pre class="code-block active" data-code-panel="dataset"><code>import torch
+from torch.utils.data import Dataset
+from PIL import Image
+import numpy as np
+
+class SegmentationDataset(Dataset):
+    def __init__(self, image_paths, mask_paths, image_transform=None):
+        self.image_paths = image_paths
+        self.mask_paths = mask_paths
+        self.image_transform = image_transform
+
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        image = Image.open(self.image_paths[idx]).convert("RGB")
+        mask = Image.open(self.mask_paths[idx])
+
+        # Mask pixels must be integer class ids:
+        # 0=background, 1=road, 2=car, and so on.
+        mask = torch.as_tensor(np.array(mask), dtype=torch.long)
+
+        if self.image_transform:
+            image = self.image_transform(image)
+
+        return image, mask</code></pre>
+
+        <pre class="code-block" data-code-panel="model" hidden><code>import torch.nn as nn
+from torchvision.models.segmentation import deeplabv3_resnet50
+
+num_classes = 5  # include background as one class
+
+model = deeplabv3_resnet50(weights=None, num_classes=num_classes)
+
+# Output shape is [batch, num_classes, H, W].
+# Each pixel has num_classes logits before softmax/argmax.
+sample_logits = model(images)["out"]</code></pre>
+
+        <pre class="code-block" data-code-panel="train" hidden><code>import torch
+import torch.nn.functional as F
+
+epochs = 40
+lr = 1e-4          # controls how large each optimizer update is
+weight_decay = 1e-4 # discourages overfitting by penalizing large weights
+ignore_index = 255  # pixels with this value do not affect the loss
+
+optimizer = torch.optim.AdamW(
+    model.parameters(),  # all model parameters are trainable here
+    lr=lr,
+    weight_decay=weight_decay
+)
+
+criterion = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
+
+for epoch in range(epochs):
+    model.train()
+    for images, masks in train_loader:
+        images = images.to(device)
+        masks = masks.to(device)
+
+        logits = model(images)["out"]
+
+        # If output size differs from mask size, resize logits.
+        logits = F.interpolate(
+            logits,
+            size=masks.shape[-2:],
+            mode="bilinear",
+            align_corners=False
+        )
+
+        # CrossEntropyLoss expects raw logits and integer masks.
+        loss = criterion(logits, masks)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()</code></pre>
+
+        <pre class="code-block" data-code-panel="metric" hidden><code>import torch
+
+def mean_iou(logits, masks, num_classes, ignore_index=255):
+    # Convert class logits to class id prediction per pixel.
+    preds = torch.argmax(logits, dim=1)
+    valid = masks != ignore_index
+    ious = []
+
+    for cls in range(num_classes):
+        pred_cls = (preds == cls) & valid
+        mask_cls = (masks == cls) & valid
+
+        intersection = (pred_cls & mask_cls).sum().float()
+        union = (pred_cls | mask_cls).sum().float()
+
+        if union > 0:
+            ious.append(intersection / union)
+
+    return torch.stack(ious).mean() if ious else torch.tensor(0.0)</code></pre>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="references">
+      <div class="section-label">
+        <h2 id="references">References for Students</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="reference-grid">
+        <a href="https://segment-anything.com/" target="_blank" rel="noopener">SAM</a>
+        <a href="https://ai.meta.com/sam2/" target="_blank" rel="noopener">SAM 2</a>
+        <a href="https://github.com/UX-Decoder/Segment-Everything-Everywhere-All-At-Once" target="_blank" rel="noopener">SEEM</a>
+        <a href="https://arxiv.org/abs/2304.03284" target="_blank" rel="noopener">SegGPT</a>
+        <a href="https://arxiv.org/abs/2211.06220" target="_blank" rel="noopener">OneFormer</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">Mohammad Rifat Ahmmad Rashid</span>
+    <div class="footer-links">
+      <a href="https://github.com/rifat963" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:rifat.abir@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

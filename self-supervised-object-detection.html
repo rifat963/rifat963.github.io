@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Supervised Learning for Object Detection | Computer Vision</title>
+  <meta name="description" content="Interactive teaching page for self-supervised vision model structure, PyTorch examples, and YOLO12 object detection training.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://rifat963.github.io/self-supervised-object-detection.html">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">Rifat Rashid</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">Profile</a>
+      <a href="research.html">Projects</a>
+      <a href="publications.html">Publications</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="students.html">Students</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">Moon</button>
+      <button class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="about.html">Profile</a><a href="research.html">Projects</a>
+  <a href="publications.html">Publications</a><a href="teaching.html">Teaching</a>
+  <a href="students.html">Students</a><a href="contact.html">Contact</a>
+</nav>
+
+<main class="ssl-page">
+  <div class="ssl-hero">
+    <div class="container ssl-hero-inner reveal">
+      <div>
+        <span class="badge">Computer Vision Course Resource</span>
+        <h1>Self-Supervised Learning for Object Detection</h1>
+        <p>
+          A single-page visual guide for understanding how modern self-supervised vision
+          backbones learn representations before they are transferred to detection tasks.
+        </p>
+      </div>
+      <div class="ssl-hero-panel" aria-label="Learning flow">
+        <div class="flow-node active">Unlabeled images</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">SSL backbone</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">Detector head</div>
+        <div class="flow-arrow">to</div>
+        <div class="flow-node">Boxes + classes</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="section reveal" aria-labelledby="learning-goals">
+      <div class="section-label">
+        <h2 id="learning-goals">What Students Should Notice</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="ssl-summary-grid">
+        <div class="ssl-summary-item">
+          <strong>No labels first</strong>
+          <span>SSL learns image features from pretext signals such as views, masks, teachers, or target embeddings.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>Backbone matters</strong>
+          <span>The pretrained encoder becomes a feature extractor for classification, segmentation, or object detection.</span>
+        </div>
+        <div class="ssl-summary-item">
+          <strong>Detection still needs boxes</strong>
+          <span>After SSL pretraining, a detector is fine-tuned with labeled bounding boxes and class labels.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="model-explorer">
+      <div class="section-label">
+        <h2 id="model-explorer">Interactive Model Explorer</h2>
+        <div class="section-label-line"></div>
+      </div>
+
+      <div class="ssl-layout">
+        <div class="ssl-model-list" role="tablist" aria-label="Self-supervised models">
+          <button class="ssl-model-button active" data-ssl-model="dinov2" role="tab" aria-selected="true">DINOv2</button>
+          <button class="ssl-model-button" data-ssl-model="byol" role="tab" aria-selected="false">BYOL</button>
+          <button class="ssl-model-button" data-ssl-model="dinov3" role="tab" aria-selected="false">DINOv3</button>
+          <button class="ssl-model-button" data-ssl-model="jepa" role="tab" aria-selected="false">I-JEPA</button>
+          <button class="ssl-model-button" data-ssl-model="mae" role="tab" aria-selected="false">MAE</button>
+        </div>
+
+        <article class="ssl-detail-panel" aria-live="polite">
+          <div class="ssl-detail-heading">
+            <div>
+              <span id="sslModelFamily" class="badge purple">Teacher-student</span>
+              <h3 id="sslModelName">DINOv2</h3>
+            </div>
+            <a id="sslModelSource" href="https://arxiv.org/abs/2304.07193" target="_blank" rel="noopener">Source</a>
+          </div>
+          <p id="sslModelIdea" class="text-muted">
+            DINOv2 trains robust visual features without supervision by scaling self-distillation,
+            curated data, and ViT backbones, then distilling strong teachers into smaller models.
+          </p>
+
+          <div class="ssl-architecture" id="sslArchitecture" aria-label="Model structure diagram"></div>
+
+          <div class="ssl-detail-grid">
+            <div>
+              <span class="ssl-mini-label">Learns by</span>
+              <p id="sslLearnsBy">Matching student features to a teacher representation from augmented image views.</p>
+            </div>
+            <div>
+              <span class="ssl-mini-label">Detection transfer</span>
+              <p id="sslDetectionUse">Use the encoder as a pretrained backbone, then fine-tune a detection head on labeled boxes.</p>
+            </div>
+            <div>
+              <span class="ssl-mini-label">PyTorch focus</span>
+              <p id="sslTorchFocus">Teacher network, student network, centering/sharpening, and feature extraction.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="pipeline-builder">
+      <div class="section-label">
+        <h2 id="pipeline-builder">Build the Detection Pipeline</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="pipeline-builder">
+        <button class="pipeline-step active" data-step="0">1. Collect unlabeled images</button>
+        <button class="pipeline-step" data-step="1">2. Pretrain SSL encoder</button>
+        <button class="pipeline-step" data-step="2">3. Attach detector head</button>
+        <button class="pipeline-step" data-step="3">4. Fine-tune on boxes</button>
+        <button class="pipeline-step" data-step="4">5. Evaluate + deploy</button>
+      </div>
+      <div class="pipeline-output" id="pipelineOutput">
+        Start with many class-relevant images. They do not need bounding boxes for SSL pretraining.
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="code-walkthrough">
+      <div class="section-label">
+        <h2 id="code-walkthrough">PyTorch Code Walkthrough</h2>
+        <div class="section-label-line"></div>
+      </div>
+
+      <div class="code-tabs" data-code-tabs>
+        <div class="tab-list" role="tablist" aria-label="Code samples">
+          <button class="tab-btn active" data-code-tab="skeleton">SSL Skeleton</button>
+          <button class="tab-btn" data-code-tab="features">Feature Extraction</button>
+          <button class="tab-btn" data-code-tab="detector">Detector Transfer</button>
+        </div>
+
+        <pre class="code-block active" data-code-panel="skeleton"><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torchvision.models import vit_b_16
+
+class ProjectionHead(nn.Module):
+    def __init__(self, dim=768, out_dim=256):
+        super().__init__()
+        # dim=768 is the ViT-B/16 feature width.
+        # out_dim=256 is the compact embedding used by the SSL loss.
+        # These projection layers are trainable during SSL pretraining.
+        self.net = nn.Sequential(
+            nn.Linear(dim, 2048),
+            nn.GELU(),
+            nn.Linear(2048, out_dim)
+        )
+
+    def forward(self, x):
+        return F.normalize(self.net(x), dim=-1)
+
+class SSLBackbone(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # weights=None means the encoder starts from random weights.
+        # Replace this with pretrained weights when fine-tuning a detector.
+        self.encoder = vit_b_16(weights=None)
+        # Remove the classifier because SSL needs representation vectors,
+        # not ImageNet class logits.
+        self.encoder.heads = nn.Identity()
+        self.projector = ProjectionHead()
+
+    def forward(self, images):
+        features = self.encoder(images)
+        return self.projector(features)
+
+student = SSLBackbone()
+teacher = SSLBackbone()
+teacher.load_state_dict(student.state_dict())
+for p in teacher.parameters():
+    # Teacher parameters are not trained by backpropagation.
+    # They are updated by exponential moving average of the student.
+    p.requires_grad = False
+
+ssl_hyperparams = {
+    "lr": 1e-4,          # learning rate for trainable student parameters
+    "weight_decay": 0.04, # regularizes large weights in ViT/projector
+    "ema": 0.996,        # teacher update momentum; higher is smoother
+    "temperature": 0.1   # sharpens similarity distributions
+}</code></pre>
+
+        <pre class="code-block" data-code-panel="features" hidden><code>import torch
+from torchvision import transforms
+
+ssl_model = SSLBackbone()
+ssl_model.load_state_dict(torch.load("ssl_backbone.pt", map_location="cpu"))
+ssl_model.eval()
+
+preprocess = transforms.Compose([
+    # img_size must match the resolution used by the SSL backbone.
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    # Normalization keeps input scale consistent with common ViT training.
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225])
+])
+
+with torch.no_grad():
+    # no_grad disables gradient storage during inference feature extraction.
+    image = preprocess(pil_image).unsqueeze(0)
+    embedding = ssl_model.encoder(image)
+
+print(embedding.shape)  # [batch, feature_dim], for ViT-B often [1, 768]</code></pre>
+
+        <pre class="code-block" data-code-panel="detector" hidden><code># Conceptual transfer recipe:
+# 1. Load the SSL encoder weights.
+# 2. Use the encoder as the detector backbone.
+# 3. Add a neck and detection head.
+# 4. Fine-tune with labeled boxes.
+
+for name, param in detector.backbone.named_parameters():
+    # Freeze the SSL backbone first so the detector head learns stable boxes.
+    # Trainable parameters at this stage: neck + detection head only.
+    param.requires_grad = False
+
+optimizer = torch.optim.AdamW(
+    filter(lambda p: p.requires_grad, detector.parameters()),
+    lr=2e-4,           # head learning rate; lower if loss is unstable
+    weight_decay=0.05  # helps prevent overfitting on small box datasets
+)
+
+for images, targets in train_loader:
+    losses = detector(images, targets)
+    loss = sum(losses.values())
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+# Then unfreeze the SSL backbone with a smaller learning rate, for example
+# backbone lr=2e-5 and head lr=2e-4, so pretrained features are not destroyed.</code></pre>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="ssl-yolo-backbone">
+      <div class="section-label">
+        <h2 id="ssl-yolo-backbone">How an SSL Backbone Connects to a YOLO Detector</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="backbone-transfer-grid">
+        <div class="transfer-card">
+          <span class="ssl-mini-label">1. Replace or initialize</span>
+          <h3>Backbone</h3>
+          <p>The SSL encoder replaces the normal YOLO feature extractor, or initializes matching layers when the architectures are compatible.</p>
+        </div>
+        <div class="transfer-card">
+          <span class="ssl-mini-label">2. Adapt feature maps</span>
+          <h3>Neck</h3>
+          <p>YOLO expects multi-scale feature maps. A small adapter or FPN/PAN neck converts SSL features into detection-friendly scales.</p>
+        </div>
+        <div class="transfer-card">
+          <span class="ssl-mini-label">3. Predict objects</span>
+          <h3>Head</h3>
+          <p>The YOLO head remains supervised. It learns box coordinates, object confidence, and class probabilities from labeled annotations.</p>
+        </div>
+      </div>
+      <div class="detector-flow" aria-label="SSL backbone to YOLO detector flow">
+        <div>Input image</div>
+        <span>to</span>
+        <div>SSL backbone features</div>
+        <span>to</span>
+        <div>YOLO neck</div>
+        <span>to</span>
+        <div>YOLO detection head</div>
+        <span>to</span>
+        <div>Boxes, classes, confidence</div>
+      </div>
+      <div class="info-box mt-2">
+        In practice, YOLO backbones are usually CNN/CSP-style modules, while many SSL models are ViT-based. When shapes do not match directly, students should treat the SSL model as a feature extractor and add adapter layers before the YOLO neck. Freeze the SSL backbone first, train the neck/head, then unfreeze carefully with a smaller learning rate.
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="yolo12-training">
+      <div class="section-label">
+        <h2 id="yolo12-training">YOLO12 Training and Inference for All Model Sizes</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="info-box mb-2">
+        YOLO12 detection weights are available in five sizes: <strong>yolo12n.pt</strong>, <strong>yolo12s.pt</strong>, <strong>yolo12m.pt</strong>, <strong>yolo12l.pt</strong>, and <strong>yolo12x.pt</strong>. Choose nano/small for class demos and limited GPUs, medium/large/xlarge for higher accuracy when memory and time allow.
+      </div>
+
+      <div class="model-size-grid mb-2">
+        <div><strong>n</strong><span>Nano: fastest, lowest memory</span></div>
+        <div><strong>s</strong><span>Small: balanced classroom default</span></div>
+        <div><strong>m</strong><span>Medium: stronger accuracy</span></div>
+        <div><strong>l</strong><span>Large: slower, better features</span></div>
+        <div><strong>x</strong><span>Xlarge: most expensive option</span></div>
+      </div>
+
+      <div class="yolo-grid">
+        <div class="yolo-card">
+          <h3>Dataset YAML</h3>
+          <pre class="code-block always-on"><code>path: /content/datasets/road_objects
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: bus</code></pre>
+        </div>
+        <div class="yolo-card">
+          <h3>Install</h3>
+          <pre class="code-block always-on"><code>pip install ultralytics
+
+python -c "import ultralytics; ultralytics.checks()"</code></pre>
+        </div>
+      </div>
+
+      <div class="code-tabs yolo-tabs" data-code-tabs>
+        <div class="tab-list" role="tablist" aria-label="YOLO12 code">
+          <button class="tab-btn active" data-code-tab="train">Train YOLO12</button>
+          <button class="tab-btn" data-code-tab="infer">Inference</button>
+          <button class="tab-btn" data-code-tab="evaluate">Evaluate</button>
+        </div>
+
+        <pre class="code-block active" data-code-panel="train"><code>from ultralytics import YOLO
+
+model_size = "s"  # choose from: "n", "s", "m", "l", "x"
+model = YOLO(f"yolo12{model_size}.pt")
+
+results = model.train(
+    data="data.yaml",       # dataset file with train/val paths and class names
+    epochs=100,             # full passes over the training set
+    imgsz=640,              # input image size; larger can improve small objects
+    batch=16,               # lower this if GPU memory is limited
+    lr0=0.01,               # initial learning rate used by the YOLO optimizer
+    weight_decay=0.0005,    # regularization for trainable weights
+    device=0,               # GPU id; use "cpu" if no CUDA GPU is available
+    project="cv_course_runs",
+    name=f"yolo12{model_size}_objects"
+)</code></pre>
+
+        <pre class="code-block" data-code-panel="infer" hidden><code>from ultralytics import YOLO
+
+model_size = "s"
+model = YOLO(f"cv_course_runs/yolo12{model_size}_objects/weights/best.pt")
+
+results = model.predict(
+    source="test_images/",  # image, folder, video, webcam id, or URL
+    imgsz=640,              # must be compatible with training resolution
+    conf=0.25,              # confidence threshold; raise to reduce false positives
+    iou=0.7,                # NMS IoU threshold; lower to suppress overlaps harder
+    save=True               # writes annotated predictions to runs/detect/
+)
+
+for result in results:
+    print(result.boxes.xyxy, result.boxes.conf, result.boxes.cls)</code></pre>
+
+        <pre class="code-block" data-code-panel="evaluate" hidden><code>from ultralytics import YOLO
+
+model_size = "s"
+model = YOLO(f"cv_course_runs/yolo12{model_size}_objects/weights/best.pt")
+metrics = model.val(
+    data="data.yaml",
+    imgsz=640,  # same image size used during training
+    batch=16    # evaluation batch size; reduce if memory is low
+)
+
+print("mAP50-95:", metrics.box.map)
+print("mAP50:", metrics.box.map50)
+print("Precision:", metrics.box.mp)
+print("Recall:", metrics.box.mr)</code></pre>
+      </div>
+    </section>
+
+    <section class="section reveal" aria-labelledby="references">
+      <div class="section-label">
+        <h2 id="references">References for Students</h2>
+        <div class="section-label-line"></div>
+      </div>
+      <div class="reference-grid">
+        <a href="https://arxiv.org/abs/2304.07193" target="_blank" rel="noopener">DINOv2 paper</a>
+        <a href="https://ai.meta.com/dinov3/" target="_blank" rel="noopener">DINOv3 by Meta AI</a>
+        <a href="https://papers.nips.cc/paper_files/paper/2020/hash/f3ada80d5c4ee70142b17b8192b2958e-Abstract.html" target="_blank" rel="noopener">BYOL paper</a>
+        <a href="https://arxiv.org/abs/2301.08243" target="_blank" rel="noopener">I-JEPA paper</a>
+        <a href="https://arxiv.org/abs/2111.06377" target="_blank" rel="noopener">MAE paper</a>
+        <a href="https://docs.ultralytics.com/models/yolo12/" target="_blank" rel="noopener">Ultralytics YOLO12 docs</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span class="footer-brand">Mohammad Rifat Ahmmad Rashid</span>
+    <div class="footer-links">
+      <a href="https://github.com/rifat963" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/mohammad-rifat-rashid-73982a5b/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:rifat.abir@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
